@@ -43,7 +43,15 @@ exit 1
 }
 
 rm -Rf $OUTPUT_FILE
-policies=$(ls /sys/devices/system/cpu/cpufreq)
+
+cpufreq_content=$(ls /sys/devices/system/cpu/cpufreq)
+policies=""
+for elem in $cpufreq_content;
+do
+	if [[ "$elem" == "policy"* ]]; then
+		policies+="${elem} "
+	fi
+done
 [ -z "$policies" ] && default_system_test
 
 declare -A cur_policy=()                                             
