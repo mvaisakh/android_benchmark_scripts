@@ -50,7 +50,6 @@ declare -A cur_policy=()
                                                             
 for policy in $policies;
 do      
-	echo $policy     
 	[ -f /sys/devices/system/cpu/cpufreq/$policy/scaling_driver ] || default_system_test
 	cur_policy[$policy]=$(cat /sys/devices/system/cpu/cpufreq/$policy/scaling_governor)
 done
