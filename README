@@ -1,0 +1,38 @@
+
+
+dhrystone-performance-opp.sh 
+
+	Usage: ./dhrystone-performance-opp.sh <workload_cpunum> <stat_collection_cpunum>
+
+	Description:
+	Run dhrystone at all supported frequencies on workload_cpunum. The
+	temperature info of the relevant thermal zone is captured by a
+	record-temp script running on stat_collection_cpunum
+
+record-temp.sh
+
+	Usage ./record-temp.sh <thermal_zone_id>
+
+	Description:
+	Unsophisticated script recording specified thermal zone
+	temperatures in 1 second interval and outputing a max and avg
+	temperatures when the script is terminated. 
+
+	e.g
+	root@dragonboard-845c:~# ./record-temp.sh 0 1 & [1] 1306
+
+	root@dragonboard-845c:~# kill 1306
+	root@dragonboard-845c:~#
+	Thermal Zone 0: Max Temp: 41800 Avg Temp: 41350
+	Thermal Zone 1: Max Temp: 41000 Avg Temp: 40625
+	[1]+  Terminated              ./record-temp.sh 0 1
+
+benchmarks.sh
+	
+	Usage: ./benchmarks.sh
+
+	Description: Runs mbw, sysbench cpu and sysbench memory tests with
+	default cpufreq governor and performance cpufreq governor.
+
+Note: Only dhrystone binary is present in this repo. All other test
+binaries must be present in the filesystem.
