@@ -12,6 +12,8 @@ CRYPTSETUP=cryptsetup
 
 run_tests()
 {
+nr_cpus=$(cat /proc/cpuinfo | grep processor | wc -l)
+
 #mbw
 echo >> $OUTPUT_FILE
 echo "Testing mbw (mbw 1500)" >> $OUTPUT_FILE
@@ -19,18 +21,19 @@ echo >> $OUTPUT_FILE
 (set -x ; $MBW 1500 >> $OUTPUT_FILE)
 sleep 30
 
+
 #sysbench cpu
 echo >> $OUTPUT_FILE
-echo "Testing sysbench cpu ( sysbench cpu --threads=8 --time=60 --cpu-max-prime=100000 run )" >> $OUTPUT_FILE
+echo "Testing sysbench cpu ( sysbench cpu --threads=$nr_cpus --time=60 --cpu-max-prime=100000 run )" >> $OUTPUT_FILE
 echo >> $OUTPUT_FILE
-(set -x; $SYSBENCH cpu --threads=8 --time=60 --cpu-max-prime=100000 run >> $OUTPUT_FILE)
+(set -x; $SYSBENCH cpu --threads=$nr_cpus --time=60 --cpu-max-prime=100000 run >> $OUTPUT_FILE)
 sleep 30
 
 #sysbench memory
 echo >> $OUTPUT_FILE
-echo "Testing sysbench memory ( sysbench memory --threads=8 --memory-total-size=1G run)" >> $OUTPUT_FILE
+echo "Testing sysbench memory ( sysbench memory --threads=$nr_cpus --memory-total-size=1G run)" >> $OUTPUT_FILE
 echo >> $OUTPUT_FILE
-(set -x; $SYSBENCH memory --threads=8 --memory-total-size=1G run >> $OUTPUT_FILE)
+(set -x; $SYSBENCH memory --threads=$nr_cpus --memory-total-size=1G run >> $OUTPUT_FILE)
 }
 
 default_system_test()
